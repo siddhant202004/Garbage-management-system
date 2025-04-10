@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garbage Collection</title>
+    <link rel="icon" href="./files/logo.png">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+</head>
+<body class="register-body">
+
+    <nav>
+        <img src="./files/logo.png" class="logo" alt="Logo" title="Garbage Management">
+        
+        <ul class="navbar">
+            <li>
+                <a href="./index.html">Home</a>
+                <a href="./index.html#fwmanage">What We Do</a>
+                <a href="./register.html">Get Involved</a>
+                <a href="./about.html">About Us</a>
+                <a href="./contact.html">Contact Us</a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="registration">
+        <div class="register-form">
+            <h1>Dispose <span>Waste Responsibly</span></h1>
+            <p>Proper waste management today ensures a cleaner and greener tomorrow!</p> <br>
+
+            <form action="" onsubmit="return validateform()">
+                <input type="text" name="myname1" placeholder="Your Name" id="name" required>
+                <input type="email" name="myemail" placeholder="Your Email" id="email" required>
+                <input type="tel" name="myphone" placeholder="Your Phone No." id="phonenum" required>
+                <input type="text" name="myadd" placeholder="Collection Address" id="address" required>
+                
+                <h4>Category</h4>
+                <input type="radio" name="myfood" value="Dry" required> Dry &nbsp; &nbsp; 
+                <input type="radio" name="myfood" value="Wet"> Wet &nbsp; &nbsp; 
+                <input type="radio" name="myfood" value="Both"> Both 
+
+                <h4>Garbage Collection Date and Time</h4>
+                <input type="datetime-local" name="fooddate" required> <br> <br>
+
+                <textarea name="note" cols="40" rows="5" placeholder="Enter Address or Additional Instructions"></textarea>
+                <br><br>
+
+                <input type="checkbox" name="t&c" checked required> I accept the Terms & Conditions.
+                <br><br>
+
+                <input type="submit" value="Submit" class="submitbtn">
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer">
+        <div class="foot">
+            <div class="footer-content">
+                <div class="footlinks">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="./register.html">Collection</a></li>
+                        <li><a href="./about.html">About Us</a></li>
+                        <li><a href="./contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footlinks">
+                    <h4>Connect</h4>
+                    <div class="social">
+                        <a href="" target="_blank"><i class='bx bxl-facebook'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-instagram'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-twitter'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-linkedin'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-youtube'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-wordpress'></i></a>
+                        <a href="" target="_blank"><i class='bx bxl-github'></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="end">
+            <p>Tel: 220-000-0000 Email: support@gmws.com | Copyright © 2025 Garbage management | All Rights Reserved. <br>Website developed by: Siddhant Tilak</p>
+        </div>
+    </section>
+
+    <!-- Javascript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector("form").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+    
+                var tel = document.getElementById("phonenum").value;
+    
+                if (tel.length < 10) {  
+                    alert("Phone number must be at least 10 digits!");  
+                    return false;  
+                } 
+                else if (isNaN(tel)) {
+                    alert("Phone number should not include characters!");
+                    return false;
+                }
+    
+                // Redirect to success.html after validation passes
+                window.location.href = "sucess.html";
+            });
+        });
+
+
+
+        document.querySelector("form").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
+        
+            const formData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phonenum").value,
+                address: document.getElementById("address").value,
+                category: document.querySelector('input[name="myfood"]:checked').value,
+                collectionDate: document.querySelector('input[name="fooddate"]').value,
+                note: document.querySelector("textarea").value
+            };
+        
+            try {
+                const response = await fetch("http://127.0.0.1:5000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                });
+        
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                alert("Error submitting form");
+                console.error(error);
+            }
+        });
+        
+        
+    </script>
+    
+
+</body>
+</html>
